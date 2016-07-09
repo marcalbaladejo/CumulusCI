@@ -188,7 +188,7 @@ if [ $BUILD_TYPE == "master" ]; then
     fi
 
 	
-	if [ "$SF_USERNAME_MASTER" != "" ]; then
+	if [ "$SF_USERNAME_PACKAGING" != "" ]; then
 
 		# Get org credentials from env
 		export SF_USERNAME=$SF_USERNAME_PACKAGING
