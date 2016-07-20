@@ -427,13 +427,11 @@ project.setProperty("downgradePackage", result);
 
               <!-- Loop through files in the type's dir and add <members /> element for each file -->
               <for param="file">
-
                 <path>
                   <!-- exclude xml files and namespaced metadata files as well as any manual excludes -->
                   <fileset dir="@{typedir}" includes="**/*.*" excludes="*.xml *-meta.xml *__*__c.object @{exclude}" />
                 </path>
                 <sequential>
-
                   <var name="component_file" unset="true" />
                   <var name="component_file_dirname" unset="true" />
                   <var name="component_file_parent" unset="true" />
@@ -445,8 +443,6 @@ project.setProperty("downgradePackage", result);
                   <!-- get the component file's parent directory.  if the parent is not the metatype, include it (i.e. Reports and Dashboards) -->
                   <dirname property="component_file_dirname" file="@{file}" />
                   <basename property="component_file_parent" file="${component_file_dirname}" />
-
-                  <echo>Adding member for ${component_file}</echo>
 
                   <!-- If the file is not in the exclude list, add it to the package.xml -->
                   <if>
