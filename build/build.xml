@@ -499,7 +499,12 @@
     </target>
 
     <target name="destroyStaleMetadataManaged">
+	    <echo>-------------------------ignore destroy stale metadata managed--------------------------</echo>
+	</target>
+	
+	<target name="originalDestroyStaleMetadataManaged">
         <echo>----------------------------------------------------------------------------</echo>
+		
         <delete dir="uninstallsrc" />
         <delete dir="uninstall" />
 
@@ -514,7 +519,7 @@
         <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="uninstall" purgeOnDelete="${cumulusci.destroy.purgeondelete}" maxPoll="${cumulusci.maxPoll.notest}" />
 
         <delete dir="uninstallsrc" />
-        <delete dir="uninstall" />
+        <delete dir="uninstall" /> 
     </target>
 
     <!-- uninstall: Removes all metadata from the package -->

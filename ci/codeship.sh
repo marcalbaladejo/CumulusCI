@@ -147,7 +147,7 @@ if [ $BUILD_TYPE == "master" ]; then
         # Get org credentials from env
         export SF_USERNAME=$SF_USERNAME_MASTER
         export SF_PASSWORD=$SF_PASSWORD_MASTER
-        export SF_SERVERURL=$SF_SERVERURL_MASTER
+        export SF_SERVERURL=$SF_SERVERURL_MASTER		
         echo "Got org credentials for master org from env"
         
         # Deploy to master org
@@ -162,7 +162,32 @@ if [ $BUILD_TYPE == "master" ]; then
         #cd clone2
         runAntTarget deployCI
         if [[ $? != 0 ]]; then exit 1; fi
-
+		
+		if [ "$SF_USERNAME_TEST" != "" ]; then
+			echo "-----------------------------------------------------------------"
+			echo "ant deployCI - Deploy to test org"
+			echo "-----------------------------------------------------------------"
+							
+			export SF_USERNAME=$SF_USERNAME_TEST
+			export SF_PASSWORD=$SF_PASSWORD_TEST
+			export SF_SERVERURL=$SF_SERVERURL_TEST		
+			echo "Got org credentials for test org from env"        
+			runAntTarget deployWithoutTest
+			if [[ $? != 0 ]]; then exit 1; fi
+		fi
+		
+		# Merge master commit to all open feature branches
+		echo
+		echo "-----------------------------------------------------------------"
+		echo "Merge commit to all open feature branches"
+		echo "-----------------------------------------------------------------"
+		echo
+		echo "Installing python dependencies"
+		export PACKAGE=`grep 'cumulusci.package.name.managed=' cumulusci.properties | sed -e 's/cumulusci.package.name.managed *= *//g'`
+		export BUILD_COMMIT="$CI_COMMIT_ID"
+		
+		python $CUMULUSCI_PATH/ci/github/merge_master_to_feature.py
+		
     else
         echo
         echo "-----------------------------------------------------------------"
