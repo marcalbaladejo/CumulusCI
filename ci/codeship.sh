@@ -177,16 +177,16 @@ if [ $BUILD_TYPE == "master" ]; then
 		fi
 		
 		# Merge master commit to all open feature branches
-		echo
-		echo "-----------------------------------------------------------------"
-		echo "Merge commit to all open feature branches"
-		echo "-----------------------------------------------------------------"
-		echo
-		echo "Installing python dependencies"
-		export PACKAGE=`grep 'cumulusci.package.name.managed=' cumulusci.properties | sed -e 's/cumulusci.package.name.managed *= *//g'`
-		export BUILD_COMMIT="$CI_COMMIT_ID"
+		# echo
+		# echo "-----------------------------------------------------------------"
+		# echo "Merge commit to all open feature branches"
+		# echo "-----------------------------------------------------------------"
+		# echo
+		# echo "Installing python dependencies"
+		# export PACKAGE=`grep 'cumulusci.package.name.managed=' cumulusci.properties | sed -e 's/cumulusci.package.name.managed *= *//g'`
+		# export BUILD_COMMIT="$CI_COMMIT_ID"
 		
-		python $CUMULUSCI_PATH/ci/github/merge_master_to_feature.py
+		# python $CUMULUSCI_PATH/ci/github/merge_master_to_feature.py
 		
     else
         echo
