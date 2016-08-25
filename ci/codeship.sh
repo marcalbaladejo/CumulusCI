@@ -4,7 +4,6 @@
 # SF_PASSWORD_MASTER
 # SF_SERVERURL_PACKAGING
 
-pip install -r $CUMULUSCI_PATH/requirements.txt
 
 # Setup variables for branch naming conventions using env overrides if set
 if [ "$MASTER_BRANCH" == "" ]; then
