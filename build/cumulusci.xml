@@ -169,7 +169,7 @@ project.setProperty("downgradePackage", result);
             
               <!-- package needs downgrade or should be Not Installed -->
               <or>
-                <bool><equals arg1="${downgradePackage}" arg2="true" /></bool>
+                
                 <equals arg1="@{version}" arg2="Not Installed" />
               </or>
             </and>

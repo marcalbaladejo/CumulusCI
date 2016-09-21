@@ -183,3 +183,7 @@ flexipages:
     - type: FlexiPage
       class: MetadataFilenameParser
       extension: flexipage
+contentassets:
+    - type: ContentAsset
+      class: MetadataFilenameParser
+      extension: asset
