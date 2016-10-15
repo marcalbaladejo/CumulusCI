@@ -242,13 +242,13 @@
         <antcall target="createUnmanagedPackage" />
 
         <!-- Uninstall all unpackaged code from the target org.  We have to do this first so we can uninstall and reinstall any managed packages not at the right version -->
-        <if>
+        <!--
+	<if>
             <equals arg1="${cumulusci.unmanaged.destroy.mode}" arg2="full" />
             <then>
                 <antcall target="uninstall" />
             </then>
-            <else>
-                <!-- Attempt to destroy any stale metadata but continue even if this fails -->
+            <else>                
                 <trycatch>
                     <try>
                         <antcall target="destroyStaleMetadata" />
@@ -259,6 +259,7 @@
                 </trycatch>
             </else>
         </if>
+	-->
 
         <!-- Update any managed packages which are not at the right version -->
         <antcall target="updateRequiredPackages" />
