@@ -141,6 +141,14 @@
         <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="src" maxPoll="${cumulusci.maxPoll.notest}" />
         <antcall target="postDeploy" />
     </target>
+	
+    <target name="deployCheckOnly">
+	    <echo>-----------------------deploy check only ------------------------</echo>
+	    <antcall target="preDeploy" />
+	    <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${cumulusci.maxPoll.test}" deployRoot="src" rollbackOnError="true" testLevel="RunLocalTests" checkOnly="true" />
+	    <antcall target="postDeploy" />
+    </target>
+		
 
     <!-- deployUnpackagedPre: Deploy the unpackaged/pre subdirectories containing metadata used in builds but not included in the managed package -->
     <target name="deployUnpackagedPre">
@@ -241,6 +249,7 @@
         <!-- Create the unmanaged package if it doesn't already exist -->
         <antcall target="createUnmanagedPackage" />
 
+	<!-- We don't need to do it anymore -->
         <!-- Uninstall all unpackaged code from the target org.  We have to do this first so we can uninstall and reinstall any managed packages not at the right version -->
         <!--
 	<if>
@@ -267,23 +276,21 @@
         <!-- Deploy any unpackaged metadata bundles needed before the deployment -->
         <antcall target="deployUnpackagedPre" />
 
+        <!-- Instead of the following, let's just deploy with check only -->
         <!-- Deploy the src directory -->
-        <antcall target="deployWithoutTest" />
-        
+        <!--
+	<antcall target="deployWithoutTest" />        
         <if>
             <not><equals arg1="${cumulusci.unmanaged.destroy.mode}" arg2="full" /></not>
-            <then>
-                <!-- Finally, delete any metadata from the org which is not in the repo -->
+            <then>                
                 <antcall target="destroyStaleMetadata" />
             </then>
-        </if>
-        
-        <!-- Deploy any unpackaged metadata bundles needed after the deployment -->
+        </if>        
         <antcall target="deployUnpackagedPost" />
-
-        <!-- Run all tests -->
         <antcall target="runAllTests" />
-
+	-->
+	<antcall target="deployCheckOnly" />    
+	    
         <!-- Uninstall unpackaged post bundles since they may reference code in the package -->
         <antcall target="uninstallUnpackagedPost" />
 
