@@ -187,3 +187,11 @@ contentassets:
     - type: ContentAsset
       class: MetadataFilenameParser
       extension: asset
+globalValueSets:
+    - type: GlobalValueSet
+      class: MetadataFilenameParser
+      extension: globalValueSet
+globalPicklists:
+    - type: GlobalPicklist
+      class: MetadataFilenameParser
+      extension: globalPicklist
