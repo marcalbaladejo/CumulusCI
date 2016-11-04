@@ -195,3 +195,7 @@ globalPicklists:
     - type: GlobalPicklist
       class: MetadataFilenameParser
       extension: globalPicklist
+globalValueSetTranslations:
+    - type: GlobalValueSetTranslation
+      class: MetadataFilenameParser
+      extension: globalValueSetTranslation
