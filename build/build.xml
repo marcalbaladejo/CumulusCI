@@ -50,8 +50,8 @@
     <property name="cumulusci.package.name.managed" value="${cumulusci.package.name}" />
     <property name="cumulusci.package.installClass" value="" />
     <property name="cumulusci.package.uninstallClass" value="" />
-    <property name="cumulusci.package.apiVersion" value="31.0" />
-    <property name="cumulusci.maxPoll.test" value="1000" />
+    <property name="cumulusci.package.apiVersion" value="38.0" />
+    <property name="cumulusci.maxPoll.test" value="5000" />
     <property name="cumulusci.maxPoll.notest" value="200" />
     <property name="cumulusci.maxPoll.managed" value="400" />
     <property name="cumulusci.apexdoc.version" value="1.1.4" />
