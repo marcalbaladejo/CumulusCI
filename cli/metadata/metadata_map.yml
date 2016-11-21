@@ -199,3 +199,11 @@ globalValueSetTranslations:
     - type: GlobalValueSetTranslation
       class: MetadataFilenameParser
       extension: globalValueSetTranslation
+flowDefinitions:
+    - type: FlowDefinition
+      class: MetadataFilenameParser
+      extension: flowDefinition
+flows:
+    - type: Flow
+      class: MetadataFilenameParser
+      extension: flow
