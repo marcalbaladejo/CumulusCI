@@ -405,7 +405,7 @@ elif [ $BUILD_TYPE == "feature" ]; then
     export SF_PASSWORD=$SF_PASSWORD_FEATURE
     export SF_SERVERURL=$SF_SERVERURL_FEATURE
     
-    echo "Got org credentials for feature org from env"
+    echo "Got org credentials for feature org from env: "  + SF_USERNAME
     
     # Deploy to feature org
     echo "Running ant deployCI"
