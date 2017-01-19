@@ -401,7 +401,7 @@ elif [ $BUILD_TYPE == "feature" ]; then
     fi
     
     # Get org credentials from env
-    export SF_USERNAME=$SF_USERNAME_FEATURE
+    export SF_USERNAME=$SF_USERNAME_FEATURE'_'$(date +"%M")
     export SF_PASSWORD=$SF_PASSWORD_FEATURE
     export SF_SERVERURL=$SF_SERVERURL_FEATURE
     
