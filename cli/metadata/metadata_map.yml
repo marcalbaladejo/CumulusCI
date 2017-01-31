@@ -208,7 +208,7 @@ flows:
       class: MetadataFilenameParser
       extension: flow
 appMenus:
-    - type: appMenu
+    - type: AppMenu
       class: MetadataFilenameParser
       extension: appMenu
       
