@@ -211,4 +211,8 @@ appMenus:
     - type: AppMenu
       class: MetadataFilenameParser
       extension: appMenu
+namedCredentials:
+    - type: NamedCredential
+      class: MetadataFilenameParser
+      extension: namedCredential
       
