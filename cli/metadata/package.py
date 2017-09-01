@@ -288,7 +288,7 @@ class CustomObjectParser(MetadataFilenameParser):
             return members
 
         # Skip standard objects
-        if not item.endswith('__c.object') and not item.endswith('__mdt.object'):
+        if not item.endswith('__c.object') and not item.endswith('__e.object')  and not item.endswith('__mdt.object'):
             return members
 
         members.append(self.strip_extension(item))
