@@ -18,6 +18,9 @@ fi
 if [ "$PREFIX_RELEASE" == "" ]; then
     export PREFIX_RELEASE='release/'
 fi
+if [ "$PREFIX_RELEASEBETA" == "" ]; then
+    export PREFIX_RELEASEBETA='releaseBETA'
+fi
 
 # Determine build type and setup Salesforce credentials
 if [[ $CI_BRANCH == $MASTER_BRANCH ]]; then
@@ -27,8 +30,12 @@ elif [[ $CI_BRANCH == $PREFIX_FEATURE* ]]; then
 elif [[ $CI_BRANCH == $PREFIX_BETA* ]]; then
     BUILD_TYPE='beta'
 elif [[ $CI_BRANCH == $PREFIX_RELEASE* ]]; then
-    BUILD_TYPE='release'    
+    BUILD_TYPE='release'
+elif [[ $CI_BRANCH == $PREFIX_RELEASEBETA ]]; then
+    BUILD_TYPE='releaseBETA'       
 fi
+
+echo "$CI_BRANCH received and $BUILD_TYPE set"
 
 if [ "$BUILD_TYPE" == "" ]; then
     echo "BUILD SKIPPED: Could not determine BUILD_TYPE for $CI_BRANCH"
@@ -436,5 +443,25 @@ elif [ $BUILD_TYPE == "release" ]; then
     
     # Deploy to packaging org
     runAntTarget deployCIPackageOrg
+    if [[ $? != 0 ]]; then exit 1; fi
+# Prod tag build, deploy and test in packaging org
+elif [ $BUILD_TYPE == "releaseBETA" ]; then
+    echo
+    echo "-----------------------------------------------------------------"
+    echo "ant deployNoTestBETA: Deploy releaseBeta to packaging org"
+    echo "-----------------------------------------------------------------"
+    echo
+    # Get org credentials from env
+	SF_USERNAME_PACKAGING="marc.albaladejo@packaging.s2bet"
+	SF_PASSWORD_PACKAGING="10Ab****"
+	SF_SERVERURL_PACKAGING="https://login.salesforce.com"
+    export SF_USERNAME=$SF_USERNAME_PACKAGING
+    export SF_PASSWORD=$SF_PASSWORD_PACKAGING
+    export SF_SERVERURL=$SF_SERVERURL_PACKAGING
+    
+    echo "Got org credentials for packaging org from env"
+    
+    # Deploy to packaging org
+    runAntTarget deployNoTestBETA
     if [[ $? != 0 ]]; then exit 1; fi
 fi
