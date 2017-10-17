@@ -32,7 +32,7 @@ elif [[ $CI_BRANCH == $PREFIX_BETA* ]]; then
 elif [[ $CI_BRANCH == $PREFIX_RELEASE* ]]; then
     BUILD_TYPE='release'
 elif [[ $CI_BRANCH == $PREFIX_RELEASEBETA ]]; then
-    BUILD_TYPE='releaseBETA'       
+    BUILD_TYPE='releaseBETA'
 fi
 
 echo "$CI_BRANCH received and $BUILD_TYPE set"
@@ -79,7 +79,7 @@ function runAntTarget {
         stdbuf -o L grep -v '^  *\[xslt\]'
 
     exit_status=${PIPESTATUS[0]}
-    
+
     if [ "$exit_status" != "0" ]; then
         echo "BUILD FAILED on target $target"
     fi
@@ -98,7 +98,7 @@ function waitOnBackgroundJobs {
     echo $job
         wait $job || let "FAIL+=1"
     done
-    
+
     echo
     echo "-----------------------------------------------------------------"
     if [ $FAIL -gt 0 ]; then
@@ -155,9 +155,9 @@ if [ $BUILD_TYPE == "master" ]; then
         # Get org credentials from env
         export SF_USERNAME=$SF_USERNAME_MASTER
         export SF_PASSWORD=$SF_PASSWORD_MASTER
-        export SF_SERVERURL=$SF_SERVERURL_MASTER		
+        export SF_SERVERURL=$SF_SERVERURL_MASTER
         echo "Got org credentials for master org from env"
-        
+
         # Deploy to master org
         echo
         echo "-----------------------------------------------------------------"
@@ -165,25 +165,25 @@ if [ $BUILD_TYPE == "master" ]; then
         echo "-----------------------------------------------------------------"
         echo
         #echo "Copying repository to `pwd`/clone2 to run 2 builds in parallel"
-        #cd /home/rof/ 
+        #cd /home/rof/
         #cp -a clone clone2
         #cd clone2
         runAntTarget deployCI
         if [[ $? != 0 ]]; then exit 1; fi
-		
+
 		if [ "$SF_USERNAME_TEST" != "" ]; then
 			echo "-----------------------------------------------------------------"
 			echo "ant deployCI - Deploy to test org"
 			echo "-----------------------------------------------------------------"
-							
+
 			export SF_USERNAME=$SF_USERNAME_TEST
 			export SF_PASSWORD=$SF_PASSWORD_TEST
-			export SF_SERVERURL=$SF_SERVERURL_TEST		
-			echo "Got org credentials for test org from env"        
+			export SF_SERVERURL=$SF_SERVERURL_TEST
+			echo "Got org credentials for test org from env"
 			runAntTarget deployWithoutTest
 			if [[ $? != 0 ]]; then exit 1; fi
 		fi
-		
+
 		# Merge master commit to all open feature branches
 		# echo
 		# echo "-----------------------------------------------------------------"
@@ -193,9 +193,9 @@ if [ $BUILD_TYPE == "master" ]; then
 		# echo "Installing python dependencies"
 		# export PACKAGE=`grep 'cumulusci.package.name.managed=' cumulusci.properties | sed -e 's/cumulusci.package.name.managed *= *//g'`
 		# export BUILD_COMMIT="$CI_COMMIT_ID"
-		
+
 		# python $CUMULUSCI_PATH/ci/github/merge_master_to_feature.py
-		
+
     else
         echo
         echo "-----------------------------------------------------------------"
@@ -220,7 +220,7 @@ if [ $BUILD_TYPE == "master" ]; then
         export APEX_TEST_NAME_EXCLUDE=$APEX_TEST_NAME_EXCLUDE_CUMULUSCI
     fi
 
-	
+
 	if [ "$SF_USERNAME_PACKAGING" != "" ]; then
 
 		# Get org credentials from env
@@ -228,7 +228,7 @@ if [ $BUILD_TYPE == "master" ]; then
 		export SF_PASSWORD=$SF_PASSWORD_PACKAGING
 		export SF_SERVERURL=$SF_SERVERURL_PACKAGING
 		echo "Got org credentials for packaging org from env"
-    
+
 		# Deploy to packaging org
 		echo
 		echo "-----------------------------------------------------------------"
@@ -241,7 +241,7 @@ if [ $BUILD_TYPE == "master" ]; then
 		runAntTarget deployCIPackageOrg
 		if [[ $? != 0 ]]; then exit 1; fi
 
-		
+
 		#echo
 		#echo "-----------------------------------------------------------------"
 		#echo "Waiting on background jobs to complete"
@@ -249,7 +249,7 @@ if [ $BUILD_TYPE == "master" ]; then
 		#echo
 		#waitOnBackgroundJobs
 		#if [ $? != 0 ]; then exit 1; fi
-		
+
 		# Upload beta package
 		echo
 		echo "-----------------------------------------------------------------"
@@ -270,13 +270,13 @@ if [ $BUILD_TYPE == "master" ]; then
 		pip install --upgrade selenium
 		pip install --upgrade requests
 
-		echo 
+		echo
 		echo
 		echo "Running package_upload.py"
 		echo
 		python $CUMULUSCI_PATH/ci/package_upload.py
 		if [[ $? -ne 0 ]]; then exit 1; fi
-	 
+
 		# Test beta
 		echo
 		echo "-----------------------------------------------------------------"
@@ -328,8 +328,8 @@ if [ $BUILD_TYPE == "master" ]; then
 		echo
 		runAntTarget runAllTestsManaged
 		if [[ $? -ne 0 ]]; then exit 1; fi
-		
-		if [ "$GITHUB_USERNAME" != "" ]; then   
+
+		if [ "$GITHUB_USERNAME" != "" ]; then
 			# Create GitHub Release
 			echo
 			echo "-----------------------------------------------------------------"
@@ -348,8 +348,8 @@ if [ $BUILD_TYPE == "master" ]; then
 			export CURRENT_REL_TAG=`grep CURRENT_REL_TAG release.properties | sed -e 's/CURRENT_REL_TAG=//g'`
 			echo "Generating release notes for tag $CURRENT_REL_TAG"
 			python $CUMULUSCI_PATH/ci/github/release_notes.py
-		
-		
+
+
 			# Merge master commit to all open feature branches
 			echo
 			echo "-----------------------------------------------------------------"
@@ -386,7 +386,7 @@ if [ $BUILD_TYPE == "master" ]; then
         echo "-----------------------------------------------------------------"
         echo "No packaging org credentials, skipping packaging org deployment "
         echo "-----------------------------------------------------------------"
-        echo		
+        echo
 	fi
 
 # Feature branch commit, build and test in local unmanaged package
@@ -406,14 +406,14 @@ elif [ $BUILD_TYPE == "feature" ]; then
     else
         export APEX_TEST_NAME_EXCLUDE=$APEX_TEST_NAME_EXCLUDE_CUMULUSCI
     fi
-    
+
     # Get org credentials from env
     export SF_USERNAME=$SF_USERNAME_FEATURE'_'$(date +"%M")
     export SF_PASSWORD=$SF_PASSWORD_FEATURE
     export SF_SERVERURL=$SF_SERVERURL_FEATURE
-    
+
     echo "Got org credentials for feature org from env: "  + $SF_USERNAME
-    
+
     # Deploy to feature org
     echo "Running ant deployCI"
     runAntTarget deployCI
@@ -438,9 +438,9 @@ elif [ $BUILD_TYPE == "release" ]; then
     export SF_USERNAME=$SF_USERNAME_PACKAGING
     export SF_PASSWORD=$SF_PASSWORD_PACKAGING
     export SF_SERVERURL=$SF_SERVERURL_PACKAGING
-    
+
     echo "Got org credentials for packaging org from env"
-    
+
     # Deploy to packaging org
     runAntTarget deployCIPackageOrg
     if [[ $? != 0 ]]; then exit 1; fi
@@ -458,9 +458,9 @@ elif [ $BUILD_TYPE == "releaseBETA" ]; then
     export SF_USERNAME=$SF_USERNAME_PACKAGING
     export SF_PASSWORD=$SF_PASSWORD_PACKAGING
     export SF_SERVERURL=$SF_SERVERURL_PACKAGING
-    
+
     echo "Got org credentials for packaging org from env"
-    
+
     # Deploy to packaging org
     runAntTarget deployNoTestBETA
     if [[ $? != 0 ]]; then exit 1; fi
