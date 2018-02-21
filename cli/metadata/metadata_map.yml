@@ -215,4 +215,7 @@ namedCredentials:
     - type: NamedCredential
       class: MetadataFilenameParser
       extension: namedCredential
-      
+customPermissions:
+    - type: CustomPermission
+      class: MetadataFilenameParser
+      extension: customPermission
