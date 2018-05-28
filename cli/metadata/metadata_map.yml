@@ -146,6 +146,9 @@ reports:
 scontrols:
     - type: Scontrol
       class: MetadataFilenameParser
+settings:
+    - type: Settings
+      class: MetadataFilenameParser
 staticresources:
     - type: StaticResource
       class: MetadataFilenameParser
